@@ -18,7 +18,7 @@ describe('ArticlesController (e2e)', () => {
 
   afterAll(async () => {
     await app.close();
-    await disconnect(); // 关闭Mongo连接
+    await disconnect(); 
   });
 
   it('/articles (POST) 应该能成功提交文章', async () => {

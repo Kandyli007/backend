@@ -42,7 +42,6 @@ updateArticle(@Param('id') id: string, @Body() dto: Partial<Article>) {
 addComment(@Param('id') id: string, @Body() dto: AddCommentDto) {
   return this.articlesService.addComment(id, dto);
 }
-
   @Patch(':id/review')
   @UsePipes(new ValidationPipe({ whitelist: true }))
   updateStatus(@Param('id') id: string, @Body() updateStatusDto: UpdateStatusDto) {

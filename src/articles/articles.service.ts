@@ -19,7 +19,7 @@ export class ArticlesService {
     const skip = (page - 1) * limit;
   
     const filter = search
-      ? { title: { $regex: search, $options: 'i' } }  // 模糊匹配 title 字段
+      ? { title: { $regex: search, $options: 'i' } }  
       : {};
   
     return this.articleModel

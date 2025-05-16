@@ -7,7 +7,6 @@ export type ArticleDocument = Article & Document;
 export class Comment {
   @Prop({ required: true })
   author: string;
-
   @Prop({ required: true })
   content: string;
 
