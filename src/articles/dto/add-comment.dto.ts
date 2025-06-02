@@ -1,15 +1,13 @@
-import { IsString } from 'class-validator';
+import { IsString, IsOptional } from 'class-validator';
 
 export class AddCommentDto {
-<<<<<<< HEAD
-  name: string;
-  comment: string;
-}
-
-=======
   @IsString()
   author: string;
+
   @IsString()
   content: string;
+
+  @IsOptional()
+  @IsString()
+  name?: string; // optional alias if needed
 }
->>>>>>> 8b86bf1f7480e60290e84e2fb197a13fe81dcb09

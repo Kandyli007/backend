@@ -1,26 +1,38 @@
 import { IsString, IsOptional } from 'class-validator';
 
 export class CreateArticleDto {
-<<<<<<< HEAD
+  @IsString()
   title: string;
-  authors: string;
-  year?: number;
-  sePractice?: string;
-  claim?: string;
-  evidence?: string;
-  type?: string;
-  participants?: string;
-}
 
-=======
-  @IsString()
-  title: string;
-  @IsString()
   @IsOptional()
+  @IsString()
   authors?: string;
 
-  @IsString()
   @IsOptional()
+  @IsString()
   abstract?: string;
+
+  @IsOptional()
+  @IsString()
+  sePractice?: string;
+
+  @IsOptional()
+  @IsString()
+  claim?: string;
+
+  @IsOptional()
+  @IsString()
+  evidence?: string;
+
+  @IsOptional()
+  @IsString()
+  type?: string;
+
+  @IsOptional()
+  @IsString()
+  participants?: string;
+
+  @IsOptional()
+  year?: number;
 }
->>>>>>> 8b86bf1f7480e60290e84e2fb197a13fe81dcb09
+
