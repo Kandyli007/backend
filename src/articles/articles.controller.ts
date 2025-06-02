@@ -1,35 +1,80 @@
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Patch,
+  UsePipes,
+  ValidationPipe,
+  NotFoundException,
+} from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto';
+import { AddCommentDto } from './dto/add-comment.dto';
+import { UpdateStatusDto } from './dto/update-status.dto';
+import { ArticleDocument } from './schemas/article.schema';
 
 @Controller('articles')
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
+
   @Post()
-  create(@Body() createArticleDto: CreateArticleDto) {
+    // here will create a new article
+  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+  async create(@Body() createArticleDto: CreateArticleDto): Promise<ArticleDocument> {
     return this.articlesService.create(createArticleDto);
   }
 
+
   @Get()
-  findAll() {
+    // and then retrieve all approved articles (or all if no filters)
+  async findAll(): Promise<ArticleDocument[]> {
     return this.articlesService.findAll();
   }
 
+
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.articlesService.findOne(id);
+    // then retrieve a single article by ID
+  async findOne(@Param('id') id: string): Promise<ArticleDocument> {
+    const article = await this.articlesService.findOne(id);
+    if (!article) {
+      throw new NotFoundException(`Article with id ${id} not found`);
+    }
+    return article;
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
-    return this.articlesService.update(id, updateArticleDto);
+
+  @Post(':id/comments')
+  
+  // last here is to add a comment to an existing article
+  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+  async addComment(
+    @Param('id') id: string,
+    @Body() addCommentDto: AddCommentDto,
+  ): Promise<ArticleDocument> {
+    const updated = await this.articlesService.addComment(id, addCommentDto);
+    if (!updated) {
+      throw new NotFoundException(`Article with id ${id} not found`);
+    }
+    return updated;
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.articlesService.remove(id);
+  
+  @Patch(':id/status')
+  // and then update an article’s status (approve or reject)
+  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+  async updateStatus(
+    @Param('id') id: string,
+    @Body() updateStatusDto: UpdateStatusDto,
+  ): Promise<ArticleDocument> {
+    const updated = await this.articlesService.updateStatus(id, updateStatusDto.status);
+    if (!updated) {
+      throw new NotFoundException(`Article with id ${id} not found`);
+    }
+    return updated;
   }
 }
+
 
