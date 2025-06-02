@@ -38,7 +38,7 @@ export class ArticlesService {
     if (!article) {
       return null;
     }
-    article.comments.push({
+    article.comments!.push({
       author: dto.author,
       content: dto.content,
       createdAt: new Date(),
