@@ -1,31 +1,36 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-<<<<<<< HEAD
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
  
   app.enableCors({
-     // here enable CORS for the frontend origin
-    origin: process.env.FRONTEND_URL || '*',  
-    // and allow all origins if FRONTEND_URL not set
-    credentials: false
+      // in here  it will enable CORS for the frontend origin
+    
+    origin: process.env.FRONTEND_URL || '*',
+    credentials: false,
   });
- 
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
-  // also use validation pipe if DTOs have validation decorators
-  const port = process.env.PORT || 3000;
-  await app.listen(port);
-  console.log(`Backend is running on port ${port}`);
-=======
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.enableCors();
-  await app.listen(3001);
-  
->>>>>>> 8b86bf1f7480e60290e84e2fb197a13fe81dcb09
+
+  app.useGlobalPipes(
+     // and then use ValidationPipe for DTO validation
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+
+ 
+  const port = parseInt(process.env.PORT, 10) || 3000;
+    // and here is to listen on the environment’s PORT (Render provides this), or default to 3000/3001
+  await app.listen(port);
+
+  console.log(`Backend is running on port ${port}`);
 }
+
 bootstrap();
+
 
