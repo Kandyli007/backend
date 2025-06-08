@@ -22,10 +22,14 @@ export class ArticlesController {
 
   @Post()
     // here will create a new article
-  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-  async create(@Body() createArticleDto: CreateArticleDto): Promise<ArticleDocument> {
-    return this.articlesService.create(createArticleDto);
-  }
+    @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+    async create(
+      @Body() createArticleDto: CreateArticleDto
+    ): Promise<ArticleDocument> {
+      console.log('🔔 Received create payload:', createArticleDto);
+      return this.articlesService.create(createArticleDto);
+    }
+  
 
 
   @Get()

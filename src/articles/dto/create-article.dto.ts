@@ -1,16 +1,18 @@
-import { IsString, IsOptional } from 'class-validator';
+// src/articles/dto/create-article.dto.ts
+import { IsString, IsOptional, IsNotEmpty, IsNumber, IsEnum } from 'class-validator';
 
 export class CreateArticleDto {
   @IsString()
+  @IsNotEmpty()
   title: string;
 
-  @IsOptional()
   @IsString()
-  authors?: string;
+  @IsNotEmpty()
+  authors: string;
 
   @IsOptional()
-  @IsString()
-  abstract?: string;
+  @IsNumber()
+  year?: number;
 
   @IsOptional()
   @IsString()
@@ -33,6 +35,15 @@ export class CreateArticleDto {
   participants?: string;
 
   @IsOptional()
-  year?: number;
+  @IsEnum(['pending', 'approved', 'rejected'])
+  status?: 'pending' | 'approved' | 'rejected';
+
+  @IsString()
+  @IsNotEmpty()
+  excerpt: string;
+
+  @IsString()
+  @IsNotEmpty()
+  content: string;
 }
 

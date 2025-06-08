@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+
 @Schema({ _id: false })
 export class Comment {
   @Prop({ required: true })
@@ -9,10 +10,11 @@ export class Comment {
   @Prop()
   author?: string;
 
-  @Prop({ default: Date.now })
+  @Prop({ default: () => new Date() })
   createdAt?: Date;
 }
 export const CommentSchema = SchemaFactory.createForClass(Comment);
+
 
 export type ArticleDocument = Article & Document;
 
@@ -22,19 +24,43 @@ export class Article {
   title: string;
 
   @Prop({ required: true })
-  content: string;
+  authors: string;
+
+  @Prop()
+  year?: number;
+
+  @Prop()
+  sePractice?: string;
+
+  @Prop()
+  claim?: string;
+
+  @Prop()
+  evidence?: string;
+
+  @Prop()
+  type?: string;
+
+  @Prop()
+  participants?: string;
+
+  @Prop({ 
+    required: true, 
+    enum: ['pending', 'approved', 'rejected'], 
+    default: 'pending' 
+  })
+  status: 'pending' | 'approved' | 'rejected';
 
   @Prop({ required: true })
   excerpt: string;
 
-  @Prop()
-  author?: string;
-
-  @Prop({ default: false })
-  hidden?: boolean;
+  @Prop({ required: true })
+  content: string;
 
   @Prop({ type: [CommentSchema], default: [] })
   comments?: Comment[];
 }
+
 export const ArticleSchema = SchemaFactory.createForClass(Article);
+
 
