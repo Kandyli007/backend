@@ -1,43 +1,52 @@
-// src/articles/dto/create-article.dto.ts
-import { IsString, IsOptional, IsNumber } from 'class-validator';
+
+import { 
+  IsString, 
+  IsNotEmpty, 
+  IsOptional, 
+  IsNumber 
+} from 'class-validator';
 
 export class CreateArticleDto {
   @IsString()
+  @IsNotEmpty()
   title: string;
 
   @IsString()
+  @IsNotEmpty()
   authors: string;
 
-  @IsOptional()
   @IsNumber()
+  @IsOptional()
   year?: number;
 
-  @IsOptional()
   @IsString()
+  @IsOptional()
   sePractice?: string;
 
-  @IsOptional()
   @IsString()
-  type?: string;
-
   @IsOptional()
-  @IsString()
   claim?: string;
 
-  @IsOptional()
   @IsString()
+  @IsOptional()
   evidence?: string;
 
-  @IsOptional()
   @IsString()
+  @IsOptional()
+  type?: string;
+
+  @IsString()
+  @IsOptional()
   participants?: string;
 
-  // ← 新增这两行
   @IsString()
+  @IsNotEmpty()
   excerpt: string;
 
   @IsString()
+  @IsNotEmpty()
   content: string;
 }
+
 
 

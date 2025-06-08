@@ -8,6 +8,7 @@ import {
   UsePipes,
   ValidationPipe,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
@@ -34,9 +35,12 @@ export class ArticlesController {
 
   @Get()
     // and then retrieve all approved articles (or all if no filters)
-  async findAll(): Promise<ArticleDocument[]> {
-    return this.articlesService.findAll();
-  }
+    async findAll(
+      @Query('status') status?: 'pending' | 'approved' | 'rejected',
+    ): Promise<ArticleDocument[]> {
+      console.log(`GET /articles?status= →`, status);
+      return this.articlesService.findAll({ status });
+    }
 
 
   @Get(':id')
