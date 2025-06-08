@@ -58,7 +58,7 @@ export class Article {
   content: string;
 
   @Prop({ type: [CommentSchema], default: [] })
-  comments?: Comment[];
+  comments: Comment[];
 }
 
 export const ArticleSchema = SchemaFactory.createForClass(Article);
