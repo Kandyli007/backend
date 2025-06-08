@@ -1,13 +1,11 @@
 // src/articles/dto/create-article.dto.ts
-import { IsString, IsOptional, IsNotEmpty, IsNumber, IsEnum } from 'class-validator';
+import { IsString, IsOptional, IsNumber } from 'class-validator';
 
 export class CreateArticleDto {
   @IsString()
-  @IsNotEmpty()
   title: string;
 
   @IsString()
-  @IsNotEmpty()
   authors: string;
 
   @IsOptional()
@@ -20,6 +18,10 @@ export class CreateArticleDto {
 
   @IsOptional()
   @IsString()
+  type?: string;
+
+  @IsOptional()
+  @IsString()
   claim?: string;
 
   @IsOptional()
@@ -28,22 +30,14 @@ export class CreateArticleDto {
 
   @IsOptional()
   @IsString()
-  type?: string;
-
-  @IsOptional()
-  @IsString()
   participants?: string;
 
-  @IsOptional()
-  @IsEnum(['pending', 'approved', 'rejected'])
-  status?: 'pending' | 'approved' | 'rejected';
-
+  // ← 新增这两行
   @IsString()
-  @IsNotEmpty()
   excerpt: string;
 
   @IsString()
-  @IsNotEmpty()
   content: string;
 }
+
 
