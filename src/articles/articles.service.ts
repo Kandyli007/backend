@@ -46,21 +46,27 @@ async findAll(filter?: { status?: string }): Promise<ArticleDocument[]> {
   }
 
 //here is the function to add the comment
-  async addComment(
-    id: string,
-    dto: AddCommentDto,
-  ): Promise<ArticleDocument> {
-    const art = await this.articleModel.findById(id).exec();
-    if (!art) {
-      throw new NotFoundException(`Article with id ${id} not found`);
-    }
-    art.comments.push({
-      author: dto.author,
-      content: dto.content,
-      createdAt: new Date(),
-    });
-    return art.save();
+async addComment(
+  id: string,
+  dto: AddCommentDto,
+): Promise<ArticleDocument> {
+  const art = await this.articleModel.findById(id).exec();
+  if (!art) {
+    throw new NotFoundException(`Article with id ${id} not found`);
   }
+  if (!Array.isArray(art.comments)) {
+    art.comments = [];
+  }
+
+  art.comments.push({
+    author: dto.author,
+    content: dto.content,
+    createdAt: new Date(),
+  });
+
+  return art.save();
+}
+
 
   //in we update the article status
   async updateStatus(
